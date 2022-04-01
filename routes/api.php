@@ -24,7 +24,7 @@ Route::prefix('auth')->group(function () {
 
     Route::post('register', [UserAuthController::class , 'Register']);
     Route::post('login', [UserAuthController::class , 'Login']);
-    Route::post('logout', 'AuthController@logout');
+    Route::post('logout', [UserAuthController::class , 'Logout']);
     Route::post('me', [UserAuthController::class , 'Me']);
 
 });
