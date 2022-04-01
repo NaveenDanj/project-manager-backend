@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class UserAuthController extends Controller
-{
+class UserAuthController extends Controller{
 
     public function Register(Request $request){
 
@@ -62,6 +61,23 @@ class UserAuthController extends Controller
         ]);
 
 
+    }
+
+    public function Logout(Request $request){
+
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
+
+
+    }
+
+
+    public function Me(Request $request){
+        // return current logged in user
+        return $request->user();
     }
 
 
