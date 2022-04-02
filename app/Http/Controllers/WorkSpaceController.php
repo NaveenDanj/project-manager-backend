@@ -52,6 +52,11 @@ class WorkSpaceController extends Controller
             'owner_id' => $request->user()->id,
         ]);
 
+        UserWorkSpace::create([
+            'user_id' => $request->user()->id,
+            'work_space_id' => $workspace->id,
+        ]);
+
         return response()->json([
             'message' => 'Workspace created successfully',
             'workspace' => $workspace,
@@ -66,7 +71,6 @@ class WorkSpaceController extends Controller
             'description' => 'required|string|max:255',
         ]);
 
-        // check if the workspace id is exists in
 
         // check if user is the owner of the workspace
         $workspace_check = WorkSpace::where('id', $id)->where('owner_id', $request->user()->id)->first();
@@ -97,7 +101,6 @@ class WorkSpaceController extends Controller
         $workspaces = User::where('id',$request->user()->id)->first()->workspaces;
 
         return response()->json([
-            'message' => 'workspaces found',
             'workspaces' => $workspaces,
         ], 200);
 
