@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserWorkSpace;
 use App\Models\WorkSpace;
 use Illuminate\Http\Request;
@@ -87,6 +88,18 @@ class WorkSpaceController extends Controller
             'workspace' => $workspace,
         ], 201);
 
+
+    }
+
+    // get user accessible workspaces
+    public function UserWorkspaces(Request $request){
+
+        $workspaces = User::where('id',$request->user()->id)->first()->workspaces;
+
+        return response()->json([
+            'message' => 'workspaces found',
+            'workspaces' => $workspaces,
+        ], 200);
 
     }
 
