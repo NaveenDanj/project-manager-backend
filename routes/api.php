@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\WorkSpaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,8 +39,10 @@ Route::prefix('workspace')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
 
-        Route::get('/', [UserAuthController::class , 'Workspaces']);
-        Route::post('/', [UserAuthController::class , 'AddWorkspace']);
+        Route::get('/', [WorkSpaceController::class , 'Workspaces']);
+        Route::get('/get/{id}', [WorkSpaceController::class , 'GetWorkspace']);
+        Route::post('/', [WorkSpaceController::class , 'AddWorkspace']);
+        Route::put('/{id}', [WorkSpaceController::class , 'EditWorkspace']);
 
     });
 
