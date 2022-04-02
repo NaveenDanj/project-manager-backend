@@ -8,6 +8,34 @@ use Illuminate\Http\Request;
 class WorkSpaceController extends Controller
 {
 
+
+    public function GetWorkspace(Request $request , $id){
+
+        // check if user has access to workspace
+        $workspace_check = WorkSpace::where('id', $id)->where('owner_id', $request->user()->id)->first();
+        if(!$workspace_check){
+            return response()->json([
+                'message' => 'You are not the owner of this workspace',
+            ], 401);
+        }
+
+        // check if workspace is exists
+        $workspace_check = WorkSpace::find($id);
+        if(!$workspace_check){
+            return response()->json([
+                'message' => 'workspace not found',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'workspace found',
+            'workspace' => $workspace_check,
+        ], 200);
+
+
+    }
+
+
     public function addWorkspace(Request $request){
 
         $request->validate([
