@@ -32,3 +32,15 @@ Route::prefix('auth')->group(function () {
 
 
 });
+
+// work space endpoints
+Route::prefix('workspace')->group(function () {
+
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::get('/', [UserAuthController::class , 'Workspaces']);
+        Route::post('/', [UserAuthController::class , 'AddWorkspace']);
+
+    });
+
+});
