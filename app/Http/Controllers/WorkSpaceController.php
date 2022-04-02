@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserWorkSpace;
 use App\Models\WorkSpace;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,11 @@ class WorkSpaceController extends Controller
     public function GetWorkspace(Request $request , $id){
 
         // check if user has access to workspace
-        $workspace_check = WorkSpace::where('id', $id)->where('owner_id', $request->user()->id)->first();
-        if(!$workspace_check){
+
+        $workspace_access_check = UserWorkSpace::where('user_id',$request->user()->id)->where('work_space_id',$id)->first();
+        if(!$workspace_access_check){
             return response()->json([
-                'message' => 'You are not the owner of this workspace',
+                'message' => 'You do not have access to this workspace',
             ], 401);
         }
 
