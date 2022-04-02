@@ -30,7 +30,6 @@ class UserAuthController extends Controller{
         return response()->json([
             'message' => 'User created successfully',
             'user' => $user,
-            'token' => $user->createToken('default')->plainTextToken
         ], 201);
 
 
@@ -57,7 +56,7 @@ class UserAuthController extends Controller{
         return response()->json([
             'message' => 'login success',
             'user' => $user,
-            'token' => $user->createToken($request->device_name)->plainTextToken
+            'token' => $user->createToken('default')->plainTextToken
         ]);
 
 
@@ -77,7 +76,10 @@ class UserAuthController extends Controller{
 
     public function Me(Request $request){
         // return current logged in user
-        return $request->user();
+        return response()->json([
+            "user" =>  $request->user()
+        ]);
+
     }
 
 
