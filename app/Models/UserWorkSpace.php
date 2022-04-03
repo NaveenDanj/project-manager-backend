@@ -9,6 +9,7 @@ class UserWorkSpace extends Model
 {
     use HasFactory;
     protected $table = 'user_work_spaces';
+    public $timestamps = false;
 
     protected $fillable = [
         'user_id',

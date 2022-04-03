@@ -30,6 +30,7 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('me', [UserAuthController::class , 'Me']);
         Route::get('workspaces', [WorkSpaceController::class , 'UserWorkspaces']);
+        Route::put('me' , [UserAuthController::class , 'updateUserAccount']);
     });
 
 
