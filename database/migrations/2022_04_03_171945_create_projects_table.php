@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name' , 50);
             $table->string('client_name' , 50);
             $table->string('description' , 255);
-            $table->integer('workspace_id');
-            $table->foreign('workspace_id')->references('id')->on('workspaces')->onDelete('cascade');
+            $table->integer('work_space_id');
+            $table->foreign('work_space_id')->references('id')->on('workspaces')->onDelete('cascade');
             $table->timestamps();
         });
     }

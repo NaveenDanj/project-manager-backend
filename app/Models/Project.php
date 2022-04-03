@@ -16,4 +16,12 @@ class Project extends Model
         'workspace_id'
     ];
 
+    // project belongs to workspace
+    public function workspace()
+    {
+        return $this->belongsTo(WorkSpace::class, 'workspace_id');
+    }
+
+
+
 }

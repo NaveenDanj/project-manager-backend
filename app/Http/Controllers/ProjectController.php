@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\WorkSpace;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller{
@@ -35,6 +36,18 @@ class ProjectController extends Controller{
         return response()->json([
             'message' => 'project added',
             'project' => $project,
+        ], 200);
+
+    }
+
+    public function getProjects(Request $request , $id){
+
+        $workspace = WorkSpace::find($id);
+        $workspace->projects;
+
+        return response()->json([
+            'message' => 'projects retrieved',
+            'workspace' => $workspace,
         ], 200);
 
     }

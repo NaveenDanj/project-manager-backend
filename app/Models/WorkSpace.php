@@ -26,5 +26,10 @@ class WorkSpace extends Model
         return $this->belongsToMany(User::class, 'user_work_spaces');
     }
 
+    // workspace hase many projects
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
 
 }

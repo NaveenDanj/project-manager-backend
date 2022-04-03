@@ -58,6 +58,7 @@ Route::prefix('project')->group(function(){
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::middleware('ensureWorkspaceAccess')->post('/{id}', [ProjectController::class , 'AddProject']);
+        Route::middleware('ensureWorkspaceAccess')->get('/{id}', [ProjectController::class , 'getProjects']);
     });
 
 });
