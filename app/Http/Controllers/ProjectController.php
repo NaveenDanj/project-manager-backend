@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller{
 
 
-    public function AddProject(Request $request){
+    public function AddProject(Request $request , $id){
 
         $request->validate([
             'name' => 'required|string|max:50',
@@ -17,9 +17,18 @@ class ProjectController extends Controller{
             'workspace_id' => 'required|integer',
         ]);
 
+        // check if route id and request id are the same
+        if ($id != $request->workspace_id) {
+            return response()->json([
+                'message' => 'workspace id does not match',
+            ], 404);
+        }
+
+
         $project =  Project::create([
             'name' => $request->name,
             'description' => $request->description,
+            'client_name' => $request->client_name,
             'workspace_id' => $request->workspace_id,
         ]);
 
@@ -27,7 +36,6 @@ class ProjectController extends Controller{
             'message' => 'project added',
             'project' => $project,
         ], 200);
-
 
     }
 
