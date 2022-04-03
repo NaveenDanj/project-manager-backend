@@ -100,7 +100,30 @@ class UserAuthController extends Controller{
 
     }
 
+    public function resetPassword(Request $request){
 
+        $request->validate([
+            'password' => 'required',
+            'new_password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json([
+            'message' => 'Password updated successfully',
+            'user' => $user,
+        ], 201);
+
+    }
 
 
 }

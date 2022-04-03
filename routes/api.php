@@ -31,6 +31,7 @@ Route::prefix('auth')->group(function () {
         Route::get('me', [UserAuthController::class , 'Me']);
         Route::get('workspaces', [WorkSpaceController::class , 'UserWorkspaces']);
         Route::put('me' , [UserAuthController::class , 'updateUserAccount']);
+        Route::post('reset-password' , [UserAuthController::class , 'resetPassword']);
     });
 
 
