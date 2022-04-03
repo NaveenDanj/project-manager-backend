@@ -107,4 +107,48 @@ class WorkSpaceController extends Controller
     }
 
 
+    // invite user to workspace
+    public function InviteUser(Request $request , $id){
+
+        $request->validate([
+            'email' => 'required|string|email|max:255',
+        ]);
+
+        // check if user is the owner of the workspace
+        $workspace_check = WorkSpace::where('id', $id)->where('owner_id', $request->user()->id)->first();
+        if(!$workspace_check){
+            return response()->json([
+                'message' => 'You are not the owner of this workspace',
+            ], 401);
+        }
+
+        // check if user is exists
+        $user_check = User::where('email', $request->email)->first();
+        if(!$user_check){
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
+
+        // check if user is already invited
+        $invite_check = UserWorkSpace::where('user_id', $user_check->id)->where('work_space_id', $id)->first();
+        if($invite_check){
+            return response()->json([
+                'message' => 'User already invited',
+            ], 401);
+        }
+
+        UserWorkSpace::create([
+            'user_id' => $user_check->id,
+            'work_space_id' => $id,
+        ]);
+
+        return response()->json([
+            'message' => 'User invited successfully',
+        ], 201);
+
+    }
+
+
+
 }

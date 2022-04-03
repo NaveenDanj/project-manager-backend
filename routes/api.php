@@ -46,6 +46,7 @@ Route::prefix('workspace')->group(function () {
         Route::get('/get/{id}', [WorkSpaceController::class , 'GetWorkspace']);
         Route::post('/', [WorkSpaceController::class , 'AddWorkspace']);
         Route::put('/{id}', [WorkSpaceController::class , 'EditWorkspace']);
+        Route::post('/invite-user/{id}' , [WorkSpaceController::class , 'InviteUser']);
 
     });
 
