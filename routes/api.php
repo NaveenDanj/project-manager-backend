@@ -51,3 +51,20 @@ Route::prefix('workspace')->group(function () {
     });
 
 });
+
+
+// project endpoints
+Route::prefix('project')->group(function(){
+
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::get('/', [ProjectController::class , 'Projects']);
+        Route::get('/get/{id}', [ProjectController::class , 'GetProject']);
+        Route::post('/', [ProjectController::class , 'AddProject']);
+        Route::put('/{id}', [ProjectController::class , 'EditProject']);
+        Route::post('/invite-user/{id}' , [ProjectController::class , 'InviteUser']);
+        Route::post('/remove-user/{id}' , [ProjectController::class , 'removeUser']);
+
+    });
+
+});
