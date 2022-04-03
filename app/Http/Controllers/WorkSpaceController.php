@@ -11,6 +11,7 @@ class WorkSpaceController extends Controller
 {
 
 
+    // get workspace
     public function GetWorkspace(Request $request , $id){
 
         // check if user has access to workspace
@@ -41,6 +42,7 @@ class WorkSpaceController extends Controller
     }
 
 
+    // add workspace
     public function addWorkspace(Request $request){
 
         $request->validate([
@@ -66,6 +68,7 @@ class WorkSpaceController extends Controller
 
     }
 
+    // edit workspace
     public function EditWorkspace(Request $request , $id){
 
         $request->validate([
@@ -116,13 +119,13 @@ class WorkSpaceController extends Controller
             'email' => 'required|string|email|max:255',
         ]);
 
-        // // check if user is the owner of the workspace
-        // $workspace_check = WorkSpace::where('id', $id)->where('owner_id', $request->user()->id)->first();
-        // if(!$workspace_check){
-        //     return response()->json([
-        //         'message' => 'You are not the owner of this workspace',
-        //     ], 401);
-        // }
+        // check if user is the owner of the workspace
+        $workspace_check = WorkSpace::where('id', $id)->where('owner_id', $request->user()->id)->first();
+        if(!$workspace_check){
+            return response()->json([
+                'message' => 'You are not the owner of this workspace',
+            ], 401);
+        }
 
         // check if user is exists
         $user_check = User::where('email', $request->email)->first();
@@ -151,6 +154,44 @@ class WorkSpaceController extends Controller
 
     }
 
+    public function removeUser(Request $request){
+
+        $request->validate([
+            'user_id' => 'required|integer',
+            'workspace_id' => 'required|integer',
+        ]);
+
+        // check if user is the owner of the workspace
+        $workspace_check = WorkSpace::where('id', $request->workspace_id)->where('owner_id', $request->user()->id)->first();
+        if(!$workspace_check){
+            return response()->json([
+                'message' => 'You are not the owner of this workspace',
+            ], 401);
+        }
+
+        // check if user is exists
+        $user_check = User::where('id', $request->user_id)->first();
+        if(!$user_check){
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
+
+        // check if user is in the workspace
+        $invite_check = UserWorkSpace::where('user_id', $user_check->id)->where('work_space_id', $request->workspace_id)->first();
+        if(!$invite_check){
+            return response()->json([
+                'message' => 'User not invited to this workspace',
+            ], 401);
+        }
+
+        $invite_check->delete();
+
+        return response()->json([
+            'message' => 'User removed successfully',
+        ], 201);
+
+    }
 
 
 }

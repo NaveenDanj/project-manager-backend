@@ -29,7 +29,7 @@ Route::prefix('auth')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('me', [UserAuthController::class , 'Me']);
-        Route::middleware('ensureWorkspaceAccess')->get('workspaces', [WorkSpaceController::class , 'UserWorkspaces']);
+        Route::get('workspaces', [WorkSpaceController::class , 'UserWorkspaces']);
         Route::put('me' , [UserAuthController::class , 'updateUserAccount']);
         Route::post('reset-password' , [UserAuthController::class , 'resetPassword']);
     });
@@ -47,7 +47,7 @@ Route::prefix('workspace')->group(function () {
         Route::post('/', [WorkSpaceController::class , 'AddWorkspace']);
         Route::middleware('ensureWorkspaceAccess')->put('/{id}', [WorkSpaceController::class , 'EditWorkspace']);
         Route::middleware('ensureWorkspaceAccess')->post('/invite-user/{id}' , [WorkSpaceController::class , 'InviteUser']);
-
+        Route::middleware('ensureWorkspaceAccess')->post('/remove-user/{id}' , [WorkSpaceController::class , 'removeUser']);
     });
 
 });
