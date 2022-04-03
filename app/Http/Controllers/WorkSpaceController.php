@@ -30,6 +30,8 @@ class WorkSpaceController extends Controller
             ], 404);
         }
 
+        $workspace_check->users;
+
         return response()->json([
             'message' => 'workspace found',
             'workspace' => $workspace_check,
@@ -114,13 +116,13 @@ class WorkSpaceController extends Controller
             'email' => 'required|string|email|max:255',
         ]);
 
-        // check if user is the owner of the workspace
-        $workspace_check = WorkSpace::where('id', $id)->where('owner_id', $request->user()->id)->first();
-        if(!$workspace_check){
-            return response()->json([
-                'message' => 'You are not the owner of this workspace',
-            ], 401);
-        }
+        // // check if user is the owner of the workspace
+        // $workspace_check = WorkSpace::where('id', $id)->where('owner_id', $request->user()->id)->first();
+        // if(!$workspace_check){
+        //     return response()->json([
+        //         'message' => 'You are not the owner of this workspace',
+        //     ], 401);
+        // }
 
         // check if user is exists
         $user_check = User::where('email', $request->email)->first();

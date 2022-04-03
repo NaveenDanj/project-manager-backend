@@ -29,7 +29,7 @@ Route::prefix('auth')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('me', [UserAuthController::class , 'Me']);
-        Route::get('workspaces', [WorkSpaceController::class , 'UserWorkspaces']);
+        Route::middleware('ensureWorkspaceAccess')->get('workspaces', [WorkSpaceController::class , 'UserWorkspaces']);
         Route::put('me' , [UserAuthController::class , 'updateUserAccount']);
         Route::post('reset-password' , [UserAuthController::class , 'resetPassword']);
     });
@@ -43,10 +43,10 @@ Route::prefix('workspace')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/', [WorkSpaceController::class , 'Workspaces']);
-        Route::get('/get/{id}', [WorkSpaceController::class , 'GetWorkspace']);
+        Route::middleware('ensureWorkspaceAccess')->get('/get/{id}', [WorkSpaceController::class , 'GetWorkspace']);
         Route::post('/', [WorkSpaceController::class , 'AddWorkspace']);
-        Route::put('/{id}', [WorkSpaceController::class , 'EditWorkspace']);
-        Route::post('/invite-user/{id}' , [WorkSpaceController::class , 'InviteUser']);
+        Route::middleware('ensureWorkspaceAccess')->put('/{id}', [WorkSpaceController::class , 'EditWorkspace']);
+        Route::middleware('ensureWorkspaceAccess')->post('/invite-user/{id}' , [WorkSpaceController::class , 'InviteUser']);
 
     });
 

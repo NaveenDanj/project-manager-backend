@@ -16,4 +16,5 @@ class UserWorkSpace extends Model
         'work_space_id',
     ];
 
+
 }
