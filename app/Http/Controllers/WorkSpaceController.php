@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserWorkSpace;
 use App\Models\WorkSpace;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WorkSpaceController extends Controller
 {
@@ -154,7 +155,7 @@ class WorkSpaceController extends Controller
 
     }
 
-    public function removeUser(Request $request){
+    public function removeUser(Request $request , $id){
 
         $request->validate([
             'user_id' => 'required|integer',
@@ -177,6 +178,13 @@ class WorkSpaceController extends Controller
             ], 404);
         }
 
+        // check if owner is not trying to remove himself
+        if($request->user()->id == $request->user_id){
+            return response()->json([
+                'message' => 'You can not remove yourself from workspace',
+            ], 401);
+        }
+
         // check if user is in the workspace
         $invite_check = UserWorkSpace::where('user_id', $user_check->id)->where('work_space_id', $request->workspace_id)->first();
         if(!$invite_check){
@@ -185,7 +193,7 @@ class WorkSpaceController extends Controller
             ], 401);
         }
 
-        $invite_check->delete();
+        DB::delete('DELETE FROM user_work_spaces WHERE user_id = ? AND  work_space_id = ?', [$user_check->id , $request->workspace_id]);
 
         return response()->json([
             'message' => 'User removed successfully',
