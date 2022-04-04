@@ -13,7 +13,7 @@ class Project extends Model
         'name',
         'client_name',
         'description',
-        'workspace_id'
+        'work_space_id'
     ];
 
     // project belongs to workspace

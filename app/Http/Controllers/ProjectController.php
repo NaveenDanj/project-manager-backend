@@ -30,7 +30,7 @@ class ProjectController extends Controller{
             'name' => $request->name,
             'description' => $request->description,
             'client_name' => $request->client_name,
-            'workspace_id' => $request->workspace_id,
+            'work_space_id' => $request->workspace_id,
         ]);
 
         return response()->json([
@@ -40,7 +40,7 @@ class ProjectController extends Controller{
 
     }
 
-    public function getProjects(Request $request , $id){
+    public function getProjects($id){
 
         $workspace = WorkSpace::find($id);
         $workspace->projects;
